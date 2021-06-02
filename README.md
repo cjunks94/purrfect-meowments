@@ -22,3 +22,19 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+docker-compose up starts app
+
+todo
+
+-[ ] add tests
+-[ ] add more ui
+
+records
+- have some metadata and a name
+- can be saved with many pics
+  - we should have an active one and at least one non active for qol?
+  - can change later
+
+-
+
