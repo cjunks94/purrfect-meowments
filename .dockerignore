@@ -2,3 +2,5 @@
 .git
 logs/
 tmp/
+
+node_modules/
