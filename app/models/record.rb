@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 class Record < ApplicationRecord
-  has_many_attached :pictures
-
-
+  has_one_attached :picture
 end
+

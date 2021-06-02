@@ -1,9 +1,9 @@
-require_relative "boot"
+# frozen_string_literal: true
 
-require "rails/all"
+require_relative 'boot'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+require 'rails/all'
+
 Bundler.require(*Rails.groups)
 
 module App
@@ -11,12 +11,7 @@ module App
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    # change to true for auth on api
+    config.should_protect_api = false
   end
 end
