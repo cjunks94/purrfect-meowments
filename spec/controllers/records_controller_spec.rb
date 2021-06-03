@@ -40,34 +40,53 @@ describe Api::V1::RecordsController, type: :controller do
   end
 
   describe 'create' do
-    it 'adds a new record' do
-      record_params = {
-        name: 'meownster cat',
-        description: 'a scary cat',
-        file_path: Rails.root.join('spec', 'files', 'cat.jpeg')
-      }
+    context 'when params are valid' do
+      it 'adds a new record' do
+        record_params = {
+          name: 'meownster cat',
+          description: 'a scary cat',
+          file_path: Rails.root.join('spec', 'files', 'cat.jpeg')
+        }
 
-      get :create, params: record_params
+        get :create, params: record_params
 
-      expect(response.status).to eq(200)
-      expect(Record.count).to eq(1)
+        expect(response.status).to eq(200)
+        expect(Record.count).to eq(1)
+      end
+    end
+
+    context 'when a params are invalid' do
+      it 'rescues the 500' do
+        get :create, params: {}
+
+        expect(response.status).to eq(500)
+      end
     end
   end
 
   describe 'update' do
-    it 'updates an existing record' do
-      record = create(:record)
+    context 'when params are valid' do
+      it 'updates an existing record' do
+        record = create(:record)
 
-      record_params = {
-        id: record.id,
-        name: 'gizmo.jpeg',
-        description: 'a scary cat',
-        file_path: Rails.root.join('spec', 'files', 'gizmo.jpeg')
-      }
-      get :update, params: record_params
+        record_params = {
+          id: record.id,
+          name: 'gizmo.jpeg',
+          file_path: Rails.root.join('spec', 'files', 'gizmo.jpeg')
+        }
+        get :update, params: record_params
 
-      expect(response.status).to eq(200)
-      expect(record.reload.picture.filename).to eq('gizmo.jpeg')
+        expect(response.status).to eq(200)
+        expect(record.reload.picture.filename).to eq('gizmo.jpeg')
+      end
+    end
+
+    context 'when params are invalid' do
+      it 'rescues the 500' do
+        get :update, params: {}
+
+        expect(response.status).to eq(500)
+      end
     end
   end
 
@@ -75,7 +94,7 @@ describe Api::V1::RecordsController, type: :controller do
     it 'deletes the record and its attchments' do
       record = create(:record)
 
-      get :destroy, params: {id: record.id}
+      get :destroy, params: { id: record.id }
 
       expect(response.status).to eq(200)
       expect(Record.count).to eq(0)

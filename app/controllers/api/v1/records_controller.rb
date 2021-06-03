@@ -47,13 +47,12 @@ module Api
       def download
         record = Record.find(params[:record_id])
 
-        response.headers["Content-Type"] = record.picture.content_type
-        response.headers["Content-Disposition"] = "attachment; #{record.picture.filename}"
+        response.headers['Content-Type'] = record.picture.content_type
+        response.headers['Content-Disposition'] = "attachment; #{record.picture.filename}"
 
         record.picture.download do |chunk|
           response.stream.write(chunk)
         end
-
       ensure
         response.stream.close
       end
