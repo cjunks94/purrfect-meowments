@@ -21,6 +21,7 @@ it is using [Active Storage](https://edgeguides.rubyonrails.org/active_storage_o
 
 ----------
 ### **Local**
+  `bundle install`
   `rake db:create db:migrate db:seed`
   `rails s`
   
