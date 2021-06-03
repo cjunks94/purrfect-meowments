@@ -8,33 +8,35 @@ it is using [Active Storage](https://edgeguides.rubyonrails.org/active_storage_o
 ## Ruby version
 - ruby-3.0.1
 
+
 ## How to run the test suite
 - right now just `rspec` at the root
 
+
 ## Deployment instructions
-First
-  * Docker
-  _note_:may not be working right now
-  - with docker just `docker-compose build` then `docker-compose up` should work
-  * Local
+----------
+### **Docker** 
+  _note_: may not be working right now
+  - `docker-compose build` then `docker-compose up` should work but it might take a bit
+
+----------
+### **Local**
   `rake db:create db:migrate db:seed`
   `rails s`
-
-## ...
-
-- navigate to `http://localhost:3000/api/v1/records` to land on the `index` page
-
+  
+  
+----------
 ## The Api
 
-  #Index
+  **#Index**
   - will fetch a list of uploaded cat pictures with
   `GET http://localhost:3000/api/v1/records`
 
-  Show
+  **#Show**
   - shows the picture for the id of the cat provided
   `GET http://localhost:3000/api/v1/records/:id`
 
-  Create
+  **#Create**
   - creates a new entry in the database
   `POST http://localhost:3000/api/v1/records`
   with
@@ -46,7 +48,7 @@ First
   }
   ```
 
-  Update
+  **#Update**
   - updates an existing record
   `PATCH  http://localhost:3000/api/v1/records/:id`
     with
@@ -60,12 +62,16 @@ First
   ```
   _note_: everything is optional right now, would like to change this and add validations in the future
 
-  Destroy
+  **#Destroy**
   - deletes and existing record
   `DELETE  http://localhost:3000/api/v1/records/:id`
 
-  Download WIP - user beware; not tested
+  **#Download** _WIP - user beware; not tested_
   `GET  http://localhost:3000/api/v1/records/:record_id/download`
+
+- example request in postman
+
+<img width="1413" alt="Screen Shot 2021-06-02 at 11 50 52 PM" src="https://user-images.githubusercontent.com/37341069/120584149-6a26c500-c3fd-11eb-9467-214ae71cfb3e.png">
 
 
 ## TODO:
@@ -76,18 +82,9 @@ use rake db:create db:migrate db:seed to start db
 todo
 
 - [ ] add more tests
+- [ ] setup the rest of auth - partially implimented but buggy right now
+- [ ] more robust error handling
 - [ ] add a frontend?
 - [ ] clean up some warnings
 - [ ] add validations for uploads and maybe names
-- [ ] work out
-
-records
-- have some metadata and a name
-- can be saved with many pics
-  - we should have an active one and at least one non active for qol?
-  - can change later
-
--
-
-image_tag file.representation(resize_to_limit: [100, 100])
-
+- [ ] work out warnings in docker
