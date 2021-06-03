@@ -7,6 +7,7 @@ Things you may want to cover:
 
 * Ruby version
 
+
 * System dependencies
 
 * Configuration
@@ -37,4 +38,6 @@ records
   - can change later
 
 -
+
+image_tag file.representation(resize_to_limit: [100, 100])
 
