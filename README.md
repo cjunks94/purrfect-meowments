@@ -2,39 +2,39 @@
 
 This is an API project to upload cat pictures \
 it is currently using [Ruby on Rails 6.1](https://edgeguides.rubyonrails.org/6_1_release_notes.html) \
-it is using [Active Storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) provided by Rails to save images \
+it is using [Active Storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) provided by Rails to save images
 
 
-* Ruby version
+## Ruby version
 - ruby-3.0.1
 
-* How to run the test suite
+## How to run the test suite
 - right now just `rspec` at the root
 
-* Deployment instructions
+## Deployment instructions
 First
-  **Docker**
+  * Docker
   _note_:may not be working right now
   - with docker just `docker-compose build` then `docker-compose up` should work
-  **Local**
+  * Local
   `rake db:create db:migrate db:seed`
   `rails s`
 
-* ...
+## ...
 
 - navigate to `http://localhost:3000/api/v1/records` to land on the `index` page
 
-* The Api
+## The Api
 
-  **#Index**
+  #Index
   - will fetch a list of uploaded cat pictures with
   `GET http://localhost:3000/api/v1/records`
 
-  **Show**
+  Show
   - shows the picture for the id of the cat provided
   `GET http://localhost:3000/api/v1/records/:id`
 
-  **Create**
+  Create
   - creates a new entry in the database
   `POST http://localhost:3000/api/v1/records`
   with
@@ -46,7 +46,7 @@ First
   }
   ```
 
-  **Update**
+  Update
   - updates an existing record
   `PATCH  http://localhost:3000/api/v1/records/:id`
     with
@@ -60,15 +60,15 @@ First
   ```
   _note_: everything is optional right now, would like to change this and add validations in the future
 
-  **Destroy**
+  Destroy
   - deletes and existing record
   `DELETE  http://localhost:3000/api/v1/records/:id`
 
-  **Download** WIP - user beware; not tested
+  Download WIP - user beware; not tested
   `GET  http://localhost:3000/api/v1/records/:record_id/download`
 
 
-* TODO:
+## TODO:
 docker-compose up starts app (this has some issues im looking into)
 
 use rake db:create db:migrate db:seed to start db
