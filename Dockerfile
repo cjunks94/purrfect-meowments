@@ -1,13 +1,14 @@
-FROM ruby:3.0.1
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+FROM ruby:2.5-alpine
+
+RUN apk update && apk upgrade && apk add ruby ruby-json ruby-io-console ruby-bundler ruby-irb ruby-bigdecimal tzdata postgresql-dev && apk add nodejs && apk add curl-dev ruby-dev build-base libffi-dev && apk add build-base libxslt-dev libxml2-dev ruby-rdoc mysql-dev sqlite-dev
 
 RUN mkdir /app
 WORKDIR /app
 
-ADD Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./
+RUN gem install ovirt-engine-sdk -v '4.3.0' --source 'https://rubygems.org/'
+RUN gem install bundler -v 2.0.1
 
-RUN gem update --system
-RUN gem install bundler
 RUN bundle install --binstubs
 
 COPY . .
@@ -15,4 +16,3 @@ COPY . .
 EXPOSE 3000
 
 ENTRYPOINT ["sh", "./config/docker/startup.sh"]
-
