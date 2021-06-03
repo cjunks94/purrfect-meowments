@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V1::RecordsController, type: :controller do
@@ -27,11 +29,10 @@ describe Api::V1::RecordsController, type: :controller do
       expected_json = {
         id: record.id,
         name: record.name,
-        description: record.description,
-        picture: record.picture
+        description: record.description
       }.to_json
 
-      get :show, params: { id: record.id }
+      get :show, params: { id: record.reload.id }
 
       expect(response.status).to eq(200)
       expect(response.body).to eq(expected_json)
@@ -40,13 +41,44 @@ describe Api::V1::RecordsController, type: :controller do
 
   describe 'create' do
     it 'adds a new record' do
-      record_params = { record: { name: 'meownster cat', description: 'a scary cat', file_path: Rails.root.join('spec', 'files', 'cat.jpeg')}}
+      record_params = {
+        name: 'meownster cat',
+        description: 'a scary cat',
+        file_path: Rails.root.join('spec', 'files', 'cat.jpeg')
+      }
 
       get :create, params: record_params
 
       expect(response.status).to eq(200)
+      expect(Record.count).to eq(1)
+    end
+  end
+
+  describe 'update' do
+    it 'updates an existing record' do
+      record = create(:record)
+
+      record_params = {
+        id: record.id,
+        name: 'gizmo.jpeg',
+        description: 'a scary cat',
+        file_path: Rails.root.join('spec', 'files', 'gizmo.jpeg')
+      }
+      get :update, params: record_params
+
+      expect(response.status).to eq(200)
+      expect(record.reload.picture.filename).to eq('gizmo.jpeg')
+    end
+  end
+
+  describe 'destroy' do
+    it 'deletes the record and its attchments' do
+      record = create(:record)
+
+      get :destroy, params: {id: record.id}
+
+      expect(response.status).to eq(200)
+      expect(Record.count).to eq(0)
     end
   end
 end
-
-get :create, params: { 'record': { 'name': 'meownster cat', 'description': 'a scary cat', 'file_path': Rails.root.join('spec', 'files', 'cat.jpeg')}}

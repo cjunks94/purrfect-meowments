@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class RecordsController < ApiController
@@ -16,25 +18,44 @@ module Api
         if @record.save
           render :show
         else
-          render json: {errors: @record.errors.messages}, status: :unproccessable_entity
+          render json: { errors: @record.errors.messages }, status: :unproccessable_entity
         end
-      end
-
-      def destroy
-        @record = Record.find(params[:id])
-        @record.destroy
       end
 
       def update
         @record = Record.find(params[:id])
         @record.update(record_params)
-        @record.picture.attach(io: File.open(file_params), filename: params[:name]) if params[:file_path]
+        @record.picture.attach(io: File.open(params[:file_path]), filename: params[:name]) if params[:file_path]
 
         if @record.save
           render :show
         else
-          render json: {errors: @record.errors.messages}, status: :unproccessable_entity
+          render json: { errors: @record.errors.messages }, status: :unproccessable_entity
         end
+      end
+
+      def destroy
+        @record = Record.find(params[:id])
+
+        if @record.destroy
+          render :index
+        else
+          render json: { errors: @record.errors.messages }, status: :unproccessable_entity
+        end
+      end
+
+      def download
+        record = Record.find(params[:record_id])
+
+        response.headers["Content-Type"] = record.picture.content_type
+        response.headers["Content-Disposition"] = "attachment; #{record.picture.filename}"
+
+        record.picture.download do |chunk|
+          response.stream.write(chunk)
+        end
+
+      ensure
+        response.stream.close
       end
 
       private
@@ -49,4 +70,3 @@ module Api
     end
   end
 end
-# @record.picture.attach(io: File.open('/Users/christopherjunker/Downloads/starrynight.jpg'), name: params[:name])
